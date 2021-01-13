@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app-nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    # image: ${APP_IMAGE_PROD}:latest
+    container_name: app-nodejs
+    environment: 
+      - PORT=8080
+    networks: 
+      - nginx
+    volumes:
+      - ./:/usr/src/app
+  ngnix:
+    image: nginx:stable
+    ports: 
+        - "8080:80"
+    volumes: 
+        - './nginx/:/etc/nginx/'
+    networks: 
+        - nginx
+networks:
+  nginx:
